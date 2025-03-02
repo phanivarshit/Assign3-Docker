@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: text-processor-deployment
+spec:
+  replicas: 2  # Deploys 2 replicas of the container
+  selector:
+    matchLabels:
+      app: text-processor
+  template:
+    metadata:
+      labels:
+        app: text-processor
+    spec:
+      containers:
+      - name: text-processor
+        image: text-processor-optimized:latest  # Ensure image exists locally or in Docker Hub
+        volumeMounts:
+        - mountPath: /home/data
+          name: data-volume
+      volumes:
+      - name: data-volume
+        hostPath:
+          path: /home/data  # Ensure this directory exists
